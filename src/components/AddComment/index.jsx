@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 export const Index = () => {
   return (
     <>
-      <div className={styles.root}>
+      {/* <div className={styles.root}>
         <Avatar
           classes={{ root: styles.avatar }}
           src="https://mui.com/static/images/avatar/5.jpg"
@@ -24,7 +24,7 @@ export const Index = () => {
           />
           <Button variant="contained">Отправить</Button>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
