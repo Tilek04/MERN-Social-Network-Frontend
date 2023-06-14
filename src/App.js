@@ -8,9 +8,9 @@ function App() {
     <>
       <Header />
       <Container maxWidth="lg">
-        <Home />
+        {/* <Home /> */}
         {/*<FullPost />*/}
-        {/*<AddPost />*/}
+        <AddPost />
         {/*<Login />*/}
         {/*<Registration />*/}
       </Container>
