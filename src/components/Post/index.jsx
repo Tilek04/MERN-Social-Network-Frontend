@@ -12,7 +12,7 @@ import { UserInfo } from "../UserInfo";
 import { PostSkeleton } from "./Skeleton";
 
 export const Post = ({
-  id,
+  _id,
   title,
   createdAt,
   imageUrl,
@@ -29,30 +29,34 @@ export const Post = ({
     return <PostSkeleton />;
   }
 
+  const onClickRemove = () => {};
+
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (
         <div className={styles.editButtons}>
-          <IconButton color="primary">
-            <EditIcon />
-          </IconButton>
-          <IconButton color="secondary">
+          <a href={`/posts/${_id}/edit`}>
+            <IconButton color="primary">
+              <EditIcon />
+            </IconButton>
+          </a>
+          <IconButton onClick={onClickRemove} color="secondary">
             <DeleteIcon />
           </IconButton>
         </div>
       )}
-      <img
-        className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
-        src={imageUrl}
-        alt={title}
-      />
+      {imageUrl && (
+        <img
+          className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
+          src={imageUrl}
+          alt={title}
+        />
+      )}
       <div className={styles.wrapper}>
         <UserInfo {...user} additionalText={createdAt} />
         <div className={styles.indention}>
-          <h2
-            className={clsx(styles.title, { [styles.titleFull]: isFullPost })}
-          >
-            {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}
+          <h2 className={clsx(styles.title, { [styles.titleFull]: isFullPost })}>
+            {isFullPost ? title : <Link to={`/posts/${_id}`}>{title}</Link>}
           </h2>
           <ul className={styles.tags}>
             {tags.map((name) => (
