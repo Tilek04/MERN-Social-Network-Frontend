@@ -8,6 +8,13 @@ export const fetchPosts = createAsyncThunk("/posts/fetchPosts", async () => {
 
 });
 
+export const fetchTags = createAsyncThunk("/posts/tags", async () => {
+  const { data } = await axios.get("/tags");
+  console.log(data);
+  return data;
+
+});
+
 const initialState = {
   posts: {
     items: [],
@@ -20,7 +27,7 @@ const initialState = {
 };
 
 const postsSlice = createSlice({
-  name: "post",
+  name: "posts",
   initialState,
   reducers: {},
   extraReducers: {
@@ -41,6 +48,26 @@ const postsSlice = createSlice({
     [fetchPosts.rejected]: (state) => {
       state.posts.items = [];
       state.posts.status = "error";
+    },
+
+// Тэги
+
+    [fetchTags.pending]: (state) => {
+      state.tags.items = [];
+      state.tags.status = "loading";
+      
+    },
+    // Загрузка выполнилось успешно
+    [fetchTags.fulfilled]: (state, action) => {
+      state.tags.items = action.payload;
+      state.tags.status = "loaded";
+      console.log(action.payload);
+    },
+    
+    // Ошибка при загрузке
+    [fetchTags.rejected]: (state) => {
+      state.tags.items = [];
+      state.tags.status = "error";
     },
   },
 });
