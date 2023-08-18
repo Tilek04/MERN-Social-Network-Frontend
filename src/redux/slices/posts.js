@@ -5,14 +5,12 @@ export const fetchPosts = createAsyncThunk("/posts/fetchPosts", async () => {
   const { data } = await axios.get("/posts");
   console.log(data);
   return data;
-
 });
 
 export const fetchTags = createAsyncThunk("/posts/tags", async () => {
   const { data } = await axios.get("/tags");
   console.log(data);
   return data;
-
 });
 
 const initialState = {
@@ -35,7 +33,6 @@ const postsSlice = createSlice({
     [fetchPosts.pending]: (state) => {
       state.posts.items = [];
       state.posts.status = "loading";
-      
     },
     // Загрузка выполнилось успешно
     [fetchPosts.fulfilled]: (state, action) => {
@@ -43,31 +40,24 @@ const postsSlice = createSlice({
       state.posts.status = "loaded";
       console.log(action.payload);
     },
-    
+
     // Ошибка при загрузке
     [fetchPosts.rejected]: (state) => {
       state.posts.items = [];
       state.posts.status = "error";
     },
 
-// Тэги
+    // Тэги
 
     [fetchTags.pending]: (state) => {
       state.tags.items = [];
       state.tags.status = "loading";
-      
     },
     // Загрузка выполнилось успешно
     [fetchTags.fulfilled]: (state, action) => {
       state.tags.items = action.payload;
       state.tags.status = "loaded";
       console.log(action.payload);
-    },
-    
-    // Ошибка при загрузке
-    [fetchTags.rejected]: (state) => {
-      state.tags.items = [];
-      state.tags.status = "error";
     },
   },
 });
