@@ -10,9 +10,15 @@ import { useForm } from "react-hook-form";
 
 import styles from "./Login.module.scss";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAuth, selectIsAuth } from "../../redux/slices/auth";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const isAuth = useSelector(selectIsAuth)
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -21,18 +27,22 @@ export const Login = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      email: "",
+      email: "test@gmail.com",
       password: "",
     },
   });
 
   const onSubmit = (values) => {
-    console.log(values);
+    dispatch(fetchAuth(values))
   };
 
   const togglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
+
+  if(isAuth === true) {
+   return <Navigate to='/'/>
+  }
 
   return (
     <Paper classes={{ root: styles.root }}>
@@ -52,7 +62,7 @@ export const Login = () => {
         <TextField
           className={styles.field}
           label="Пароль"
-          type={showPassword ? '' : 'password'}
+          type={showPassword ? "" : "password"}
           error={Boolean(errors.password?.message)}
           helperText={errors.password?.message}
           {...register("password", { required: "Укажите пороль" })}

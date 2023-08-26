@@ -1,26 +1,43 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import React from 'react';
+import Button from '@mui/material/Button';
 
-import styles from "./Header.module.scss";
-import Container from "@mui/material/Container";
+import styles from './Header.module.scss';
+import Container from '@mui/material/Container';
+import { useSelector } from 'react-redux';
+import { selectIsAuth } from '../../redux/slices/auth';
 
 export const Header = () => {
+  const isAuth = useSelector(selectIsAuth);
+
+  const onClickLogout = () => {};
+
   return (
     <div className={styles.root}>
       <Container maxWidth="lg">
         <div className={styles.inner}>
-          <Link className={styles.logo} to="/">
+          <a className={styles.logo} href="/">
             <div>DZHENISHEV BLOG</div>
-          </Link>
+          </a>
           <div className={styles.buttons}>
-            <Link to="/login">
-            <Button variant="outlined">Войти</Button>
-            </Link>
-           <Link to="/register">
-           <Button variant="contained">Создать аккаунт</Button>
-           </Link>
-           
+            {isAuth ? (
+              <>
+                <a href="/posts/create">
+                  <Button variant="contained">Написать статью</Button>
+                </a>
+                <Button onClick={onClickLogout} variant="contained" color="error">
+                  Выйти
+                </Button>
+              </>
+            ) : (
+              <>
+                <a href="/login">
+                  <Button variant="outlined">Войти</Button>
+                </a>
+                <a href="/register">
+                  <Button variant="contained">Создать аккаунт</Button>
+                </a>
+              </>
+            )}
           </div>
         </div>
       </Container>
