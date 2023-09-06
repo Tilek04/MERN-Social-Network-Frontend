@@ -1,15 +1,22 @@
-import React from 'react';
-import Button from '@mui/material/Button';
+import React from "react";
+import Button from "@mui/material/Button";
 
-import styles from './Header.module.scss';
-import Container from '@mui/material/Container';
-import { useSelector } from 'react-redux';
-import { selectIsAuth } from '../../redux/slices/auth';
+import styles from "./Header.module.scss";
+import Container from "@mui/material/Container";
+import { useDispatch, useSelector } from "react-redux";
+import { logaout, selectIsAuth } from "../../redux/slices/auth";
+import { Navigate } from "react-router-dom";
 
 export const Header = () => {
   const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
 
-  const onClickLogout = () => {};
+  const onClickLogout = () => {
+    if (window.confirm("Вы действительно хотите выйти?")) {
+      dispatch(logaout());
+      window.localStorage.removeItem("token")
+    }
+  };
 
   return (
     <div className={styles.root}>
@@ -24,7 +31,10 @@ export const Header = () => {
                 <a href="/posts/create">
                   <Button variant="contained">Написать статью</Button>
                 </a>
-                <Button onClick={onClickLogout} variant="contained" color="error">
+                <Button
+                  onClick={onClickLogout}
+                  variant="contained"
+                  color="error">
                   Выйти
                 </Button>
               </>

@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const isAuth = useSelector(selectIsAuth)
+  const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
 
   const {
@@ -28,20 +28,32 @@ export const Login = () => {
   } = useForm({
     defaultValues: {
       email: "test@gmail.com",
-      password: "",
+      password: "1234567",
     },
   });
 
-  const onSubmit = (values) => {
-    dispatch(fetchAuth(values))
+  // Сохраняем токен в localstorage для авторизации
+  const onSubmit = async (values) => {
+    const data = await dispatch(fetchAuth(values));
+    if (!data.payload) {
+      alert("ERROR");
+    }
+    if ("token" in data.payload) {
+      window.localStorage.setItem("token", data.payload.token);
+
+  console.log(data.payload.token);
+    } else {
+      alert("ERROR");
+    }
   };
+
 
   const togglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  if(isAuth === true) {
-   return <Navigate to='/'/>
+  if (isAuth === true) {
+    return <Navigate to="/" />;
   }
 
   return (
