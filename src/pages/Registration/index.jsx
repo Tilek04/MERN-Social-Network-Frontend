@@ -10,7 +10,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import styles from "./Login.module.scss";
-import { selectIsAuth } from "../../redux/slices/auth";
+import { selectIsAuth, fetchRegister } from "../../redux/slices/auth";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { fetchAuth } from "../../redux/slices/auth";
@@ -36,7 +36,7 @@ export const Registration = () => {
 
   // Сохраняем токен в localstorage для авторизации
   const onSubmit = async (values) => {
-    const data = await dispatch(fetchAuth(values));
+    const data = await dispatch(fetchRegister(values));
     if (!data.payload) {
       alert("ERROR");
     }
@@ -94,7 +94,7 @@ export const Registration = () => {
         <IconButton onClick={togglePassword} size="small">
           {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
         </IconButton>
-        <Button type="submit" size="large" variant="contained" fullWidth>
+        <Button disabled={!isValid} type="submit" size="large" variant="contained" fullWidth>
           Зарегистрироваться
         </Button>
       </Paper>

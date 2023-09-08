@@ -83,7 +83,7 @@ export const Login = () => {
         <IconButton onClick={togglePassword} size="small">
           {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
         </IconButton>
-        <Button type="submit" size="large" variant="contained" fullWidth>
+        <Button  disabled={!isValid} type="submit" size="large" variant="contained" fullWidth>
           Войти
         </Button>
       </form>
