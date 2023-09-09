@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
@@ -6,9 +6,17 @@ import SimpleMDE from "react-simplemde-editor";
 
 import "easymde/dist/easymde.min.css";
 import styles from "./AddPost.module.scss";
+import { useSelector } from "react-redux";
+import { selectIsAuth } from "../../redux/slices/auth";
+import { Navigate } from "react-router-dom";
+import { SettingsOutlined, TransgenderTwoTone } from "@mui/icons-material";
 
 export const AddPost = () => {
   const [value, setValue] = React.useState("");
+  const [title, setTitle] = useState("");
+  const [tags, setTags] = useState("");
+
+  const isAuth = useSelector(selectIsAuth);
 
   const onChange = React.useCallback((value) => {
     setValue(value);
@@ -29,6 +37,10 @@ export const AddPost = () => {
     []
   );
 
+  if (!window.localStorage.getItem("token") && !isAuth) {
+    return <Navigate to="/" />;
+  }
+console.log({title, tags, value});
   return (
     <Paper style={{ padding: 30 }}>
       <Button variant="outlined" size="large">
@@ -38,6 +50,8 @@ export const AddPost = () => {
       <br />
       <TextField
         classes={{ root: styles.title }}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
         variant="standard"
         placeholder="Заголовок статьи..."
         fullWidth
@@ -45,6 +59,8 @@ export const AddPost = () => {
       <TextField
         classes={{ root: styles.tags }}
         variant="standard"
+        value={tags}
+        onChange={(e) => setTags(e.target.value)}
         placeholder="Тэги"
         fullWidth
       />
