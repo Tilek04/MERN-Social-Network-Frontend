@@ -29,8 +29,8 @@ export const Registration = () => {
   } = useForm({
     defaultValues: {
       fullName: "Tilek",
-      email: "tilek@gmail.com",
-      password: "qwerty",
+      email: "",
+      password: "",
     },
   });
 
@@ -58,7 +58,7 @@ export const Registration = () => {
   }
 
   return (
-    <form  onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Paper classes={{ root: styles.root }}>
         <Typography classes={{ root: styles.title }} variant="h5">
           Создание аккаунта
@@ -94,7 +94,12 @@ export const Registration = () => {
         <IconButton onClick={togglePassword} size="small">
           {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
         </IconButton>
-        <Button disabled={!isValid} type="submit" size="large" variant="contained" fullWidth>
+        <Button
+          disabled={!isValid}
+          type="submit"
+          size="large"
+          variant="contained"
+          fullWidth>
           Зарегистрироваться
         </Button>
       </Paper>

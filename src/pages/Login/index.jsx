@@ -27,8 +27,8 @@ export const Login = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      email: "test@gmail.com",
-      password: "1234567",
+      email: "",
+      password: "",
     },
   });
 
@@ -41,12 +41,11 @@ export const Login = () => {
     if ("token" in data.payload) {
       window.localStorage.setItem("token", data.payload.token);
 
-  console.log(data.payload.token);
+      console.log(data.payload.token);
     } else {
       alert("ERROR");
     }
   };
-
 
   const togglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -83,7 +82,12 @@ export const Login = () => {
         <IconButton onClick={togglePassword} size="small">
           {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
         </IconButton>
-        <Button  disabled={!isValid} type="submit" size="large" variant="contained" fullWidth>
+        <Button
+          disabled={!isValid}
+          type="submit"
+          size="large"
+          variant="contained"
+          fullWidth>
           Войти
         </Button>
       </form>

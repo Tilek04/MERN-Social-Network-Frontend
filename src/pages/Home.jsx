@@ -11,17 +11,16 @@ import { CommentsBlock } from "../components/CommentsBlock";
 
 export const Home = () => {
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth.data);
   const { posts, tags } = useSelector((state) => state.posts);
   const isPostsLoading = posts.status === "loading";
   const isTagsLoading = tags.status === "loading";
 
   useEffect(() => {
-    dispatch(fetchPosts())
-    dispatch(fetchTags())
+    dispatch(fetchPosts());
+    dispatch(fetchTags());
   }, []);
-  console.log(posts);
 
-  console.log(posts.items);
   return (
     <>
       <Tabs
@@ -46,16 +45,15 @@ export const Home = () => {
                 viewsCount={obj.viewsCount}
                 commentsCount={3}
                 tags={obj.tags}
-                isEditable
+            isEditable={userData?._id && obj && obj.user && obj.user._id === userData._id}
+
+
               />
             )
           )}
         </Grid>
         <Grid xs={4} item>
-          <TagsBlock
-            items={tags.items}
-            isLoading={isTagsLoading}
-          />
+          <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
             items={[
               {
