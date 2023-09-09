@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
@@ -10,17 +10,23 @@ import { useSelector } from "react-redux";
 import { selectIsAuth } from "../../redux/slices/auth";
 import { Navigate } from "react-router-dom";
 import { SettingsOutlined, TransgenderTwoTone } from "@mui/icons-material";
+import axios from "axios";
 
 export const AddPost = () => {
   const [value, setValue] = React.useState("");
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
+  const inputFileRef = useRef(null)
 
   const isAuth = useSelector(selectIsAuth);
 
   const onChange = React.useCallback((value) => {
     setValue(value);
   }, []);
+
+  const handleChangeFile =  () => {
+ 
+  }
 
   const options = React.useMemo(
     () => ({
@@ -40,12 +46,13 @@ export const AddPost = () => {
   if (!window.localStorage.getItem("token") && !isAuth) {
     return <Navigate to="/" />;
   }
-console.log({title, tags, value});
+
   return (
     <Paper style={{ padding: 30 }}>
-      <Button variant="outlined" size="large">
+      <Button onClick={() => inputFileRef.current.click()} variant="outlined" size="large">
         Загрузить превью
       </Button>
+      <input ref={inputFileRef} type="file"  onChange={handleChangeFile} hidden/>
       <br />
       <br />
       <TextField
