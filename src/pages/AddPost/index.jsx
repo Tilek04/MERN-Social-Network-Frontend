@@ -40,7 +40,9 @@ export const AddPost = () => {
   };
 
   const onClickRemoveImage = () => {
-   setImageUrl('')
+    if (window.confirm("ТЫ действительно хочешь удалить?")) {
+      setImageUrl("");
+    }
   };
 
   const options = React.useMemo(
