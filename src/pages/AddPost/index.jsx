@@ -8,16 +8,18 @@ import "easymde/dist/easymde.min.css";
 import styles from "./AddPost.module.scss";
 import { useSelector } from "react-redux";
 import { selectIsAuth } from "../../redux/slices/auth";
-import { Navigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { SettingsOutlined, TransgenderTwoTone } from "@mui/icons-material";
 import axios from "../../axios";
 
 export const AddPost = () => {
   const [value, setValue] = React.useState("");
   const [title, setTitle] = useState("");
+  const [isLoad, setLoad] = useState(false);
   const [tags, setTags] = useState("");
   const inputFileRef = useRef(null);
   const [imageUrl, setImageUrl] = useState("");
+  const navigate = useNavigate();
 
   const isAuth = useSelector(selectIsAuth);
 
@@ -42,6 +44,24 @@ export const AddPost = () => {
   const onClickRemoveImage = () => {
     if (window.confirm("ТЫ действительно хочешь удалить?")) {
       setImageUrl("");
+    }
+  };
+
+  const onSubmit = async () => {
+    try {
+      setLoad(true);
+      const fields = {
+        title,
+        value,
+        imageUrl,
+        tags,
+      };
+      const { data } = await axios.post("/posts", fields);
+      const id = data._id;
+      navigate(`/posts/${id}`);
+    } catch (error) {
+      console.warn(error);
+      alert("Ошибка создания статьи!");
     }
   };
 
@@ -120,7 +140,7 @@ export const AddPost = () => {
         options={options}
       />
       <div className={styles.buttons}>
-        <Button size="large" variant="contained" onClick={onClickRemoveImage}>
+        <Button size="large" variant="contained" onClick={onSubmit}>
           Опубликовать
         </Button>
         <Button size="large">Отмена</Button>
